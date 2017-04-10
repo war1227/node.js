@@ -1,16 +1,11 @@
 var express = require('express');
 var fs = require('fs'); 
 var app = express();
-var options = { 
-    key: fs.readFileSync('localhost.key'), 
-    cert: fs.readFileSync('localhost.cert'), 
-	requestCert: false, 
-    rejectUnauthorized: false
-}; 
-var https = require('https').createServer(options,app).listen(process.env.PORT||61044,'0.0.0.0',function(){
+
+var http = require('http').createServer(app).listen(process.env.PORT||5000,'0.0.0.0',function(){
 	console.log('Application running on port '+this.address().port);
 });
-var io = require('socket.io').listen(https);
+var io = require('socket.io').listen(http);
 var userlist = {};
 var liveVideoCalls = {};
 app.use(express.static(__dirname+'/static/'));
